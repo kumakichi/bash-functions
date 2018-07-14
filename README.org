@@ -1,0 +1,4 @@
+* About
+  Useful bash functions, just put them into ~/.bashrc
+  
+  Each function in a single file, for detail info, read README_ *function*.org

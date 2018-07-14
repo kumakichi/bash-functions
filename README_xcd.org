@@ -1,0 +1,25 @@
+* About
+  change direcotry without inputing dir name(but you can specify prefix)
+* Usage
+  #+BEGIN_SRC sh
+    $xcd
+
+    index    directory
+
+    0        he
+    1        x2
+    2        x2 hehe
+    3        y1
+    4        y2
+
+    Now,give me the index : 4
+
+    $xcd x2
+
+    index    directory
+
+    0        x2
+    1        x2 hehe
+
+    Now,give me the index : 
+  #+END_SRC

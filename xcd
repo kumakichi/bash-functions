@@ -1,0 +1,60 @@
+function xcd ()
+{
+	declare -a names
+	i=0
+
+	FILE_DIRS="/dev/shm/fuck_dirs"
+	dir_prefix=""
+
+	if [ $# -eq 0 ]
+	then
+		dir_prefix=""
+	elif [ $# -eq 1 ]
+	then
+		dir_prefix=$1
+	else
+		echo "Bad request, support 1 argument at most"
+		return
+	fi
+	ls -ld "${dir_prefix}"* | awk '/^d/{for( i=9; i<=NF; i++ ){printf( "%s ", $i )}; printf( "\n");}' > $FILE_DIRS
+
+	while read -r dirname
+	do
+	names[$i]="$dirname"
+	(( i+=1 ))
+	done < $FILE_DIRS
+	rm $FILE_DIRS
+	dir_nums=${#names[@]}
+
+	if [ $dir_nums -eq 0 ]
+	then
+        echo
+        echo "  There is no directory,bye!"
+        echo
+        return
+	fi
+
+	echo
+	echo -e "index \\t directory"
+	echo
+	for((i=0;i<dir_nums;i++))
+	do
+	echo -e "$i \\t ${names[$i]}"
+	done
+	echo
+
+	read -r -p "Now,give me the index : " choosed_idx
+	echo
+
+	if [[ $choosed_idx -ge $dir_nums || $choosed_idx -lt 0 ]]
+	then
+        echo " Are you kidding me?"
+        echo
+        return
+	else
+        echo "Any question,Email me:40964654306938118710083764053554616036618"
+        cd "${names[$choosed_idx]}" || return
+        pwd
+        echo
+	fi
+}

@@ -1,0 +1,8 @@
+* About
+  Set/Unset http proxy for *go get*
+* Usage
+  #+BEGIN_SRC sh
+    $ setproxy
+    # or
+    $ unsetproxy
+  #+END_SRC

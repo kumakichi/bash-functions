@@ -1,0 +1,21 @@
+proxy_addr=http://127.0.0.1:8123
+
+function setproxy() {
+	os_name=$(uname -a | awk '{print $1}')
+	if [ "$os_name" = "Darwin" ]
+	then
+		polipo -c ~/.poliporc & # start http proxy
+	fi
+	export http_proxy=$proxy_addr
+	git config --global http.proxy $proxy_addr
+}
+
+function unsetproxy() {
+	os_name=$(uname -a | awk '{print $1}')
+	if [ "$os_name" = "Darwin" ]
+	then
+		killall polipo # stop proxy
+	fi
+	unset http_proxy
+	git config --global --remove-section http
+}

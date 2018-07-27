@@ -1,0 +1,9 @@
+* About
+  create/delete ramdisk in macos
+
+* Usage
+  #+BEGIN_SRC sh
+    $ cram # create ram disk
+
+    $ dram # detach ram disk
+  #+END_SRC

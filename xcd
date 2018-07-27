@@ -4,6 +4,11 @@ function xcd ()
 	i=0
 
 	FILE_DIRS="/dev/shm/fuck_dirs"
+	os_name=$(uname -a | awk '{print $1}')
+	if [ "$os_name" = "Darwin" ]
+	then
+		FILE_DIRS="/Volumes/ramdisk/xcd_dirs"
+	fi
 	dir_prefix=""
 
 	if [ $# -eq 0 ]

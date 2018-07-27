@@ -1,0 +1,22 @@
+function cram() {
+	sizeInMB=100
+	if [ $# -eq 1 ]
+	then
+		sizeInMB=$1
+	fi
+
+	devDisk=$(hdiutil attach -nomount ram://$((2 * 1024 * sizeInMB)))
+	diskutil eraseVolume HFS+ ramdisk $devDisk
+}
+
+function dram() {
+	if [ $# -lt 1 ]
+	then
+		echo "Usage: $0 dev path/mount point"
+		echo "eg: $0 /dev/disk3"
+		echo "    $0 /Volumes/ramdisk"
+		return
+	fi
+
+	hdiutil detach "$*"
+}

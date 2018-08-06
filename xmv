@@ -1,0 +1,73 @@
+function xmv ()
+{
+	declare -a names
+	i=0
+
+	FILE_LIST="/dev/shm/file_list"
+	os_name=$(uname -a | awk '{print $1}')
+	if [ "$os_name" = "Darwin" ]
+	then
+		FILE_LIST="/Volumes/ramdisk/file_list"
+	fi
+	file_prefix=""
+
+	if [ $# -eq 0 ]
+	then
+		file_prefix=""
+	elif [ $# -eq 1 ]
+	then
+		file_prefix=$1
+	else
+		echo "Bad request, support 1 argument at most"
+		return
+	fi
+	ls -ld "${file_prefix}"* | awk '{for( i=9; i<=NF; i++ ){printf( "%s ", $i )}; printf( "\n");}' > $FILE_LIST
+
+	while read -r dirname
+	do
+		names[$i]="$dirname"
+		(( i+=1 ))
+	done < $FILE_LIST
+	rm $FILE_LIST
+	dir_nums=${#names[@]}
+
+	if [ $dir_nums -eq 0 ]
+	then
+		echo
+		echo "  There is no directory,bye!"
+		echo
+		return
+	fi
+
+	echo
+	echo -e "index \\t directory"
+	echo
+	for((i=0;i<dir_nums;i++))
+	do
+		echo -e "$i \\t ${names[$i]}"
+	done
+	echo
+
+	read -r -p "Now,give me the index : " choosed_idx
+	echo
+
+	if [[ $choosed_idx -ge $dir_nums || $choosed_idx -lt 0 ]]
+	then
+		echo " Are you kidding me?"
+		echo
+		return
+	else
+		echo "Choosed '${names[$choosed_idx]}'"
+		echo
+		read -r -p "Now, give me the new name : " new_name
+		echo
+		if [ ${#new_name} -lt 1 ]
+		then
+			echo "invalid new name"
+			return
+		fi
+		echo "mv '""${names[$choosed_idx]}""' '""${new_name}""'"
+		mv "${names[$choosed_idx]}" "${new_name}"
+		echo
+	fi
+}

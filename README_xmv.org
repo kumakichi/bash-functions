@@ -1,0 +1,4 @@
+* About
+  mv file without inputing its name(considering it is hard to input or we need not to change input method)
+
+  almost the same as xcd

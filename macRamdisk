@@ -1,12 +1,21 @@
 function cram() {
+	volname="ramdisk"
 	sizeInMB=100
 	if [ $# -eq 1 ]
 	then
 		sizeInMB=$1
 	fi
 
+	if [ -d "/Volumes/$volname" ]
+	then
+		echo "/Volumes/$volname" already exists
+		return
+	fi
+
 	devDisk=$(hdiutil attach -nomount ram://$((2 * 1024 * sizeInMB)))
-	diskutil eraseVolume HFS+ ramdisk $devDisk
+	diskutil eraseVolume HFS+ $volname $devDisk
+	mkdir /Volumes/$volname/chrome_cache
+	ln -s /Users/$(whoami)/Library/Caches/Google/Chrome/Default /Volumes/$volname/chrome_cache
 }
 
 function dram() {

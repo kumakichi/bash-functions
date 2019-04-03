@@ -1,0 +1,4 @@
+* About
+  make change directory convenientlly
+
+  support *list/l* *cd* *save/s* *del/d*
